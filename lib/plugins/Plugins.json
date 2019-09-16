@@ -1,5 +1,6 @@
 {
   "plugins": [
+    "./interactiveCli",
     "./config/config.js",
     "./create/create.js",
     "./install/install.js",
@@ -38,13 +39,16 @@
     "./aws/package/compile/events/websockets/index.js",
     "./aws/package/compile/events/sns/index.js",
     "./aws/package/compile/events/stream/index.js",
+    "./aws/package/compile/events/alb/index.js",
     "./aws/package/compile/events/alexaSkill/index.js",
     "./aws/package/compile/events/alexaSmartHome/index.js",
     "./aws/package/compile/events/iot/index.js",
     "./aws/package/compile/events/cloudWatchEvent/index.js",
     "./aws/package/compile/events/cloudWatchLog/index.js",
     "./aws/package/compile/events/cognitoUserPool/index.js",
+    "./aws/package/compile/events/eventBridge/index.js",
     "./aws/package/compile/events/sqs/index.js",
+    "./aws/package/compile/events/cloudFront/index.js",
     "./aws/deployFunction/index.js",
     "./aws/deployList/index.js",
     "./aws/invokeLocal/index.js"

@@ -7,12 +7,14 @@ layout: Doc
 -->
 
 <!-- DOCS-SITE-LINK:START automatically generated  -->
+
 ### [Read this on the main serverless docs site](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local)
+
 <!-- DOCS-SITE-LINK:END -->
 
 # AWS - Invoke Local
 
-This runs your code locally by emulating the AWS Lambda environment. Please keep in mind, it's not a 100% perfect emulation, there may be some differences, but it works for the vast majority of users.  We mock the `context` with simple mock data.
+This runs your code locally by emulating the AWS Lambda environment. Please keep in mind, it's not a 100% perfect emulation, there may be some differences, but it works for the vast majority of users. We mock the `context` with simple mock data.
 
 ```bash
 serverless invoke local --function functionName
@@ -28,9 +30,11 @@ serverless invoke local --function functionName
 - `--raw` Pass data as a raw string even if it is JSON. If not set, JSON data are parsed and passed as an object.
 - `--contextPath` or `-x`, The path to a json file holding input context to be passed to the invoked function. This path is relative to the root directory of the service.
 - `--context` or `-c`, String data to be passed as a context to your function. Same like with `--data`, context included in `--contextPath` will overwrite the context you passed with `--context` flag.
+
 * `--env` or `-e` String representing an environment variable to set when invoking your function, in the form `<name>=<value>`. Can be repeated for more than one environment variable.
 * `--docker` Enable docker support for NodeJS/Python/Ruby/Java. Enabled by default for other
   runtimes.
+* `--docker-arg` Pass additional arguments to docker run command when `--docker` is option used. e.g. `--docker-arg '-p 9229:9229' --docker-arg '-v /var:/host_var'`
 
 ## Environment
 
@@ -79,7 +83,7 @@ This example will pass the json data in the `lib/data.json` file (relative to th
 {
   "resource": "/",
   "path": "/",
-  "httpMethod": "GET",
+  "httpMethod": "GET"
   //  etc. //
 }
 ```
@@ -95,6 +99,7 @@ serverless invoke local --function functionName --context "hello world"
 ```bash
 serverless invoke local --function functionName --contextPath lib/context.json
 ```
+
 This example will pass the json context in the `lib/context.json` file (relative to the root of the service) while invoking the specified/deployed function.
 
 ### Local function invocation, setting environment variables
@@ -117,9 +122,14 @@ Use of the `--docker` flag and runtimes other than NodeJs, Python, Java, & Ruby 
 
 **Note:** In order to get correct output when using Java runtime, your Response class must implement `toString()` method.
 
+**Environment variables:** The `IS_LOCAL` environment variable, as well as
+any environment variables provided via command line arguments,
+will only be set once the invoked function begins its execution.
+They _will not_ be set during the parsing of the `serverless.yml` file.
+
 ## Resource permissions
 
-Lambda functions assume an *IAM role* during execution: the framework creates this role, and set all the permission provided in the `iamRoleStatements` section of `serverless.yml`.
+Lambda functions assume an _IAM role_ during execution: the framework creates this role, and set all the permission provided in the `iamRoleStatements` section of `serverless.yml`.
 
 Unless you explicitly state otherwise, every call to the AWS SDK inside the lambda function is made using this role (a temporary pair of key / secret is generated and set by AWS as environment variables, `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`).
 
@@ -130,4 +140,4 @@ Take a look to the official AWS documentation (in this particular instance, for 
 - [http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html](http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html)
 - [http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-lambda.html](http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-lambda.html)
 
-Whatever approach you decide to implement, **be aware**: the set of permissions might be (and probably is) different, so you won't have an exact simulation of the *real* IAM policy in place.
+Whatever approach you decide to implement, **be aware**: the set of permissions might be (and probably is) different, so you won't have an exact simulation of the _real_ IAM policy in place.
